@@ -16,6 +16,11 @@ class PokeClient {
 
     private final OkHttpClient okHttpClient = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private final String baseUrl;
+
+    PokeClient(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     public PokemonDetail getPokemonNameAndLocations(int id) throws IOException {
         String name = getName(id);
@@ -27,7 +32,7 @@ class PokeClient {
     public String getName(int id) throws IOException {
         Request request = new Request.Builder()
                 .get()
-                .url("https://pokeapi.co/api/v2/pokemon/" + id)
+                .url(baseUrl + "pokemon/" + id)
                 .build();
 
         try (Response response = okHttpClient.newCall(request).execute()) {
@@ -41,7 +46,7 @@ class PokeClient {
     public List<String> getLocations(int id) throws IOException {
         Request request = new Request.Builder()
                 .get()
-                .url("https://pokeapi.co/api/v2/pokemon/" + id + "/encounters")
+                .url(baseUrl + "pokemon/" + id + "/encounters")
                 .build();
 
         try (Response response = okHttpClient.newCall(request).execute()) {
