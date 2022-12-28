@@ -20,14 +20,8 @@ class PokeClient {
     public PokemonDetail getPokemonNameAndLocations(int id) throws IOException {
         String name = getName(id);
         List<String> locations = getLocations(id);
-        List<String> list = new ArrayList<>();
-        for (String location : locations) {
-            list.add(location);
-        }
+        List<String> list = new ArrayList<>(locations);
         return new PokemonDetail(name, list);
-    }
-
-    record PokemonDetail(String name, List<String> locations) {
     }
 
     public String getName(int id) throws IOException {
@@ -61,15 +55,4 @@ class PokeClient {
         }
     }
 
-    record LocationResponse(LocationArea location_area, VersionDetails[] version_details) {
-    }
-
-    record LocationArea(String name, String url) {
-    }
-
-    record VersionDetails(Version version) {
-    }
-
-    record Version(String name) {
-    }
 }
