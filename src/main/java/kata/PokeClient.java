@@ -8,6 +8,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +16,19 @@ class PokeClient {
 
     private final OkHttpClient okHttpClient = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    public PokemonDetail getPokemonNameAndLocations(int id) throws IOException {
+        String name = getName(id);
+        List<String> locations = getLocations(id);
+        List<String> list = new ArrayList<>();
+        for (String location : locations) {
+            list.add(location);
+        }
+        return new PokemonDetail(name, list);
+    }
+
+    record PokemonDetail(String name, List<String> locations) {
+    }
 
     public String getName(int id) throws IOException {
         Request request = new Request.Builder()
@@ -41,7 +55,7 @@ class PokeClient {
 
             LocationResponse[] array = objectMapper.readValue(rawJson, LocationResponse[].class);
             return Arrays.stream(array)
-                    .filter(x -> Arrays.stream(x.version_details()).anyMatch(y -> y.version().name().equals("red")))
+                    .filter(x -> Arrays.stream(x.version_details()).anyMatch(y -> y.version().name().equals("red") || y.version().name().equals("blue")))
                     .map(r -> r.location_area().name())
                     .toList();
         }
@@ -50,7 +64,7 @@ class PokeClient {
     record LocationResponse(LocationArea location_area, VersionDetails[] version_details) {
     }
 
-    record LocationArea(String name) {
+    record LocationArea(String name, String url) {
     }
 
     record VersionDetails(Version version) {
