@@ -15,7 +15,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class PokeClientTest {
@@ -44,7 +43,20 @@ class PokeClientTest {
 
         String actual = pokeClient.getName(25);
 
-        assertThat(actual).isEqualTo("pikachu");
+        assertThat(actual).isEqualTo("Pikachu");
+    }
+
+    @Test
+    void testGetNameFails() throws IOException {
+        given(okHttpClient.newCall(any())).willReturn(call);
+        given(call.execute()).willReturn(response);
+        given(response.isSuccessful()).willReturn(false);
+
+        PokeClient pokeClient = new PokeClient(new PokeConfig("http://whatever", "anyApiKey"), okHttpClient);
+
+        String actual = pokeClient.getName(25);
+
+        assertThat(actual).isEqualTo("Unknown");
     }
 
     @Test

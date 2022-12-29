@@ -46,9 +46,10 @@ class PokeClient {
                 String rawJson = response.body().string();
 
                 JsonNode jsonNode = objectMapper.readTree(rawJson);
-                return jsonNode.get("name").asText();
+                String name = jsonNode.get("name").asText();
+                return name.substring(0, 1).toUpperCase() + name.substring(1);
             } else {
-                return "unknown";
+                return "Unknown";
             }
         }
     }
