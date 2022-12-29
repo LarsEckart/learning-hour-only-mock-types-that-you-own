@@ -78,7 +78,7 @@ pitest {
     junit5PluginVersion = '0.15'
     testSourceSets = [sourceSets.test]
     mainSourceSets = [sourceSets.main]
-    targetClasses = ['ferry.booking.*']
+    targetClasses = ['kata.*']
     pitestVersion = '1.7.0'
     threads = 4
     outputFormats = ['XML', 'HTML']
