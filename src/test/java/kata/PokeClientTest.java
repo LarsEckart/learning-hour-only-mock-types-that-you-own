@@ -33,13 +33,14 @@ class PokeClientTest {
     void testGetName() throws IOException {
         given(okHttpClient.newCall(any())).willReturn(call);
         given(call.execute()).willReturn(response);
+        given(response.isSuccessful()).willReturn(true);
         given(response.body()).willReturn(responseBody);
         given(responseBody.string()).willReturn("""
                 {
                   "id": 25,
                   "name": "pikachu"
                 }""");
-        PokeClient pokeClient = new PokeClient("http://whatever", okHttpClient);
+        PokeClient pokeClient = new PokeClient(new PokeConfig("http://whatever", "anyApiKey"), okHttpClient);
 
         String actual = pokeClient.getName(25);
 
@@ -526,7 +527,7 @@ class PokeClientTest {
                     ]
                   } \s
                 ]""");
-        PokeClient pokeClient = new PokeClient("http://whatever", okHttpClient);
+        PokeClient pokeClient = new PokeClient(new PokeConfig("http://whatever", "anyApiKey"), okHttpClient);
 
         List<String> locations = pokeClient.getLocations(25);
 

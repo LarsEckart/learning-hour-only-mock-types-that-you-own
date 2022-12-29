@@ -11,16 +11,19 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 class PokeClient {
 
     private final OkHttpClient okHttpClient;
+    private final String apiKey;
     private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
     private final String baseUrl;
 
-    PokeClient(String baseUrl, OkHttpClient okHttpClient) {
-        this.baseUrl = baseUrl;
+    PokeClient(PokeConfig pokeConfig, OkHttpClient okHttpClient) {
+        this.baseUrl = pokeConfig.baseUrl();
+        this.apiKey = pokeConfig.apiKey();
         this.okHttpClient = okHttpClient;
     }
 
@@ -35,13 +38,18 @@ class PokeClient {
         Request request = new Request.Builder()
                 .get()
                 .url(baseUrl + "pokemon/" + id)
+                .header("Authorization", apiKey)
                 .build();
 
         try (Response response = okHttpClient.newCall(request).execute()) {
-            String rawJson = response.body().string();
+            if (response.isSuccessful()) {
+                String rawJson = response.body().string();
 
-            JsonNode jsonNode = objectMapper.readTree(rawJson);
-            return jsonNode.get("name").asText();
+                JsonNode jsonNode = objectMapper.readTree(rawJson);
+                return jsonNode.get("name").asText();
+            } else {
+                return "unknown";
+            }
         }
     }
 
@@ -52,13 +60,17 @@ class PokeClient {
                 .build();
 
         try (Response response = okHttpClient.newCall(request).execute()) {
-            String rawJson = response.body().string();
+            if (response.isSuccessful()) {
+                String rawJson = response.body().string();
 
-            LocationResponse[] array = objectMapper.readValue(rawJson, LocationResponse[].class);
-            return Arrays.stream(array)
-                    .filter(x -> Arrays.stream(x.version_details()).anyMatch(y -> y.version().name().equals("red") || y.version().name().equals("blue")))
-                    .map(r -> r.location_area().name())
-                    .toList();
+                LocationResponse[] array = objectMapper.readValue(rawJson, LocationResponse[].class);
+                return Arrays.stream(array)
+                        .filter(x -> Arrays.stream(x.version_details()).anyMatch(y -> y.version().name().equals("red") || y.version().name().equals("blue")))
+                        .map(r -> r.location_area().name())
+                        .toList();
+            } else {
+                return Collections.emptyList();
+            }
         }
     }
 
