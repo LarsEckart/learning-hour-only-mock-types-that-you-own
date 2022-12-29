@@ -5,6 +5,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,16 +17,22 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+@ExtendWith(MockitoExtension.class)
 class PokeClientTest {
+
+    @Mock
+    private OkHttpClient okHttpClient;
+    @Mock
+    private Call call;
+    @Mock
+    private Response response;
+    @Mock
+    private ResponseBody responseBody;
 
     @Test
     void testGetName() throws IOException {
-        OkHttpClient okHttpClient = mock(OkHttpClient.class);
-        Call call = mock(Call.class);
         given(okHttpClient.newCall(any())).willReturn(call);
-        Response response = mock(Response.class);
         given(call.execute()).willReturn(response);
-        ResponseBody responseBody = mock(ResponseBody.class);
         given(response.body()).willReturn(responseBody);
         given(responseBody.string()).willReturn("""
                 {
@@ -39,12 +48,8 @@ class PokeClientTest {
 
     @Test
     void testGetLocations() throws IOException {
-        OkHttpClient okHttpClient = mock(OkHttpClient.class);
-        Call call = mock(Call.class);
         given(okHttpClient.newCall(any())).willReturn(call);
-        Response response = mock(Response.class);
         given(call.execute()).willReturn(response);
-        ResponseBody responseBody = mock(ResponseBody.class);
         given(response.body()).willReturn(responseBody);
         given(responseBody.string()).willReturn("""
                 [
