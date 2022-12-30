@@ -7,14 +7,22 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -82,6 +90,16 @@ class PokeClientTest {
         String actual = pokeClient.getName(25);
 
         assertThat(actual).isEqualTo("Unknown");
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1, 1009, 2000})
+    void testGetNameInvalidId(int id) {
+        PokeClient pokeClient = new PokeClient(new PokeConfig("https://example.com/", "anyApiKey"), okHttpClient);
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> pokeClient.getName(id))
+                .withMessage("id '%s' is not between 1 and 1008.".formatted(id));
     }
 
     @Test
@@ -224,7 +242,6 @@ class PokeClientTest {
         assertThat(locations).hasSize(2);
         assertThat(locations).contains("viridian-forest-area", "power-plant-area");
     }
-
 
     @Test
     void testGetLocationsMakesCorrectRequest() throws IOException {
@@ -380,5 +397,15 @@ class PokeClientTest {
         List<String> locations = pokeClient.getLocations(25);
 
         assertThat(locations).isEmpty();
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1, 1009, 2000})
+    void testGetLocationsInvalidId(int id) {
+        PokeClient pokeClient = new PokeClient(new PokeConfig("https://example.com/", "anyApiKey"), okHttpClient);
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> pokeClient.getLocations(id))
+                .withMessage("id '%s' is not between 1 and 1008.".formatted(id));
     }
 }
