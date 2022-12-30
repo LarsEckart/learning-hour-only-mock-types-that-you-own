@@ -95,7 +95,7 @@ class PokeClientTest {
     @ParameterizedTest
     @ValueSource(ints = {0, -1, 1009, 2000})
     void testGetNameInvalidId(int id) {
-        PokeClient pokeClient = new PokeClient(new PokeConfig("https://example.com/", "anyApiKey"), okHttpClient);
+        PokeClient pokeClient = new PokeClient(new PokeConfig(null, null), null);
 
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> pokeClient.getName(id))
@@ -402,7 +402,7 @@ class PokeClientTest {
     @ParameterizedTest
     @ValueSource(ints = {0, -1, 1009, 2000})
     void testGetLocationsInvalidId(int id) {
-        PokeClient pokeClient = new PokeClient(new PokeConfig("https://example.com/", "anyApiKey"), okHttpClient);
+        PokeClient pokeClient = new PokeClient(new PokeConfig(null, null), null);
 
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> pokeClient.getLocations(id))
