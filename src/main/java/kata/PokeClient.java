@@ -58,6 +58,7 @@ class PokeClient {
         Request request = new Request.Builder()
                 .get()
                 .url(baseUrl + "pokemon/" + id + "/encounters")
+                .header("Authorization", apiKey)
                 .build();
 
         try (Response response = okHttpClient.newCall(request).execute()) {
