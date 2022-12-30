@@ -16,15 +16,15 @@ import java.util.List;
 
 class PokeClient {
 
-    private final OkHttpClient okHttpClient;
-    private final String apiKey;
     private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+    private final OkHttpClient okHttpClient;
     private final String baseUrl;
+    private final String apiKey;
 
     PokeClient(PokeConfig pokeConfig, OkHttpClient okHttpClient) {
+        this.okHttpClient = okHttpClient;
         this.baseUrl = pokeConfig.baseUrl();
         this.apiKey = pokeConfig.apiKey();
-        this.okHttpClient = okHttpClient;
     }
 
     public PokemonDetail getPokemonNameAndLocations(int id) throws IOException {
