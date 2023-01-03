@@ -39,22 +39,18 @@ class PokeClient {
                 .header("Authorization", apiKey)
                 .build();
 
-        try(
-    Response response = okHttpClient.newCall(request).execute())
+        try (Response response = okHttpClient.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                String rawJson = response.body().string();
 
-    {
-        if (response.isSuccessful()) {
-            String rawJson = response.body().string();
-
-            JsonNode jsonNode = objectMapper.readTree(rawJson);
-            String name = jsonNode.get("name").asText();
-            return name.substring(0, 1).toUpperCase() + name.substring(1);
-        } else {
-            return "Unknown";
+                JsonNode jsonNode = objectMapper.readTree(rawJson);
+                String name = jsonNode.get("name").asText();
+                return name.substring(0, 1).toUpperCase() + name.substring(1);
+            } else {
+                return "Unknown";
+            }
         }
     }
-
-}
 
     /**
      * Returns all locations where this pokemon appears in the games Pokemon Red and Pokemon Blue.
