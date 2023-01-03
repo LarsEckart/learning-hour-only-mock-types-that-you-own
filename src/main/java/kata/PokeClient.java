@@ -75,7 +75,7 @@ class PokeClient {
 
                 LocationResponse[] array = objectMapper.readValue(rawJson, LocationResponse[].class);
                 return Arrays.stream(array)
-                        .filter(x -> Arrays.stream(x.version_details()).anyMatch(y -> y.version().name().equals("red") || y.version().name().equals("blue")))
+                        .filter(x -> Arrays.stream(x.version_details()).anyMatch(y -> "red".equals(y.version().name()) || "blue".equals(y.version().name())))
                         .map(r -> r.location_area().name())
                         .toList();
             } else {
