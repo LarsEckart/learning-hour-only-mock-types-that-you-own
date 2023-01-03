@@ -29,12 +29,6 @@ class PokeClient {
         this.apiKey = pokeConfig.apiKey();
     }
 
-    public PokemonDetail getPokemonNameAndLocations(int id) throws IOException {
-        String name = getName(id);
-        List<String> locations = getLocations(id);
-        return new PokemonDetail(name, locations);
-    }
-
     public String getName(int id) throws IOException {
         if (id < 1 || 1008 < id) {
             throw new IllegalArgumentException("id '%s' is not between 1 and 1008.".formatted(id));
