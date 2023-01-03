@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,6 +42,13 @@ class PokeClientTest {
     @Mock
     private ResponseBody responseBody;
 
+    private PokeClient pokeClient;
+
+    @BeforeEach
+    void setUp() {
+        pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
+    }
+
     @Test
     void testGetName() throws IOException {
         given(okHttpClient.newCall(any())).willReturn(call);
@@ -52,7 +60,6 @@ class PokeClientTest {
                   "id": 25,
                   "name": "pikachu"
                 }""");
-        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         String actual = pokeClient.getName(25);
 
@@ -71,7 +78,6 @@ class PokeClientTest {
                   "id": 25,
                   "name": "pikachu"
                 }""");
-        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         pokeClient.getName(25);
 
@@ -86,8 +92,6 @@ class PokeClientTest {
         given(okHttpClient.newCall(any())).willReturn(call);
         given(call.execute()).willReturn(response);
         given(response.isSuccessful()).willReturn(false);
-
-        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         String actual = pokeClient.getName(25);
 
@@ -237,7 +241,6 @@ class PokeClientTest {
                     ]
                   } \s
                 ]""");
-        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         List<String> locations = pokeClient.getLocations(25);
 
@@ -379,7 +382,6 @@ class PokeClientTest {
                     ]
                   } \s
                 ]""");
-        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         pokeClient.getLocations(25);
 
@@ -394,7 +396,6 @@ class PokeClientTest {
         given(okHttpClient.newCall(any())).willReturn(call);
         given(call.execute()).willReturn(response);
         given(response.isSuccessful()).willReturn(false);
-        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         List<String> locations = pokeClient.getLocations(25);
 
