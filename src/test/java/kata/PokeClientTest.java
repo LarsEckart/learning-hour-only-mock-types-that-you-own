@@ -30,6 +30,8 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class PokeClientTest {
 
+    public static final String DUMMY_URL = "https://example.com/";
+    public static final String DUMMY_API_KEY = "anyApiKey";
     @Mock
     private OkHttpClient okHttpClient;
     @Mock
@@ -50,7 +52,7 @@ class PokeClientTest {
                   "id": 25,
                   "name": "pikachu"
                 }""");
-        PokeClient pokeClient = new PokeClient(new PokeConfig("https://example.com/", "anyApiKey"), okHttpClient);
+        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         String actual = pokeClient.getName(25);
 
@@ -69,14 +71,14 @@ class PokeClientTest {
                   "id": 25,
                   "name": "pikachu"
                 }""");
-        PokeClient pokeClient = new PokeClient(new PokeConfig("https://example.com/", "anyApiKey"), okHttpClient);
+        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         pokeClient.getName(25);
 
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
         assertThat(request.url().toString()).isEqualTo("https://example.com/pokemon/25");
-        assertThat(request.header("Authorization")).isEqualTo("anyApiKey");
+        assertThat(request.header("Authorization")).isEqualTo(DUMMY_API_KEY);
     }
 
     @Test
@@ -85,7 +87,7 @@ class PokeClientTest {
         given(call.execute()).willReturn(response);
         given(response.isSuccessful()).willReturn(false);
 
-        PokeClient pokeClient = new PokeClient(new PokeConfig("https://example.com/", "anyApiKey"), okHttpClient);
+        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         String actual = pokeClient.getName(25);
 
@@ -235,7 +237,7 @@ class PokeClientTest {
                     ]
                   } \s
                 ]""");
-        PokeClient pokeClient = new PokeClient(new PokeConfig("https://example.com/", "anyApiKey"), okHttpClient);
+        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         List<String> locations = pokeClient.getLocations(25);
 
@@ -377,14 +379,14 @@ class PokeClientTest {
                     ]
                   } \s
                 ]""");
-        PokeClient pokeClient = new PokeClient(new PokeConfig("https://example.com/", "anyApiKey"), okHttpClient);
+        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         pokeClient.getLocations(25);
 
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
         assertThat(request.url().toString()).isEqualTo("https://example.com/pokemon/25/encounters");
-        assertThat(request.header("Authorization")).isEqualTo("anyApiKey");
+        assertThat(request.header("Authorization")).isEqualTo(DUMMY_API_KEY);
     }
 
     @Test
@@ -392,7 +394,7 @@ class PokeClientTest {
         given(okHttpClient.newCall(any())).willReturn(call);
         given(call.execute()).willReturn(response);
         given(response.isSuccessful()).willReturn(false);
-        PokeClient pokeClient = new PokeClient(new PokeConfig("https://example.com/", "anyApiKey"), okHttpClient);
+        PokeClient pokeClient = new PokeClient(new PokeConfig(DUMMY_URL, DUMMY_API_KEY), okHttpClient);
 
         List<String> locations = pokeClient.getLocations(25);
 
