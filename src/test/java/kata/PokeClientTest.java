@@ -133,12 +133,6 @@ class PokeClientTest {
                           "name": "blue",
                           "url": "https://pokeapi.co/api/v2/version/2/"
                         }
-                      },
-                      {
-                        "version": {
-                          "name": "heartgold",
-                          "url": "https://pokeapi.co/api/v2/version/15/"
-                        }
                       }
                     ]
                   },
@@ -156,18 +150,6 @@ class PokeClientTest {
                       },
                       {
                         "version": {
-                          "name": "blue",
-                          "url": "https://pokeapi.co/api/v2/version/2/"
-                        }
-                      },
-                      {
-                        "version": {
-                          "name": "firered",
-                          "url": "https://pokeapi.co/api/v2/version/10/"
-                        }
-                      },
-                      {
-                        "version": {
                           "name": "leafgreen",
                           "url": "https://pokeapi.co/api/v2/version/11/"
                         }
@@ -181,61 +163,9 @@ class PokeClientTest {
                     },
                     "version_details": [
                       {
-                        "encounter_details": [
-                          {
-                            "chance": 4,
-                            "condition_values": [],
-                            "max_level": 25,
-                            "method": {
-                              "name": "walk",
-                              "url": "https://pokeapi.co/api/v2/encounter-method/1/"
-                            },
-                            "min_level": 25
-                          },
-                          {
-                            "chance": 1,
-                            "condition_values": [],
-                            "max_level": 27,
-                            "method": {
-                              "name": "walk",
-                              "url": "https://pokeapi.co/api/v2/encounter-method/1/"
-                            },
-                            "min_level": 27
-                          }
-                        ],
-                        "max_chance": 5,
                         "version": {
                           "name": "ruby",
                           "url": "https://pokeapi.co/api/v2/version/7/"
-                        }
-                      },
-                      {
-                        "encounter_details": [
-                          {
-                            "chance": 4,
-                            "condition_values": [],
-                            "max_level": 25,
-                            "method": {
-                              "name": "walk",
-                              "url": "https://pokeapi.co/api/v2/encounter-method/1/"
-                            },
-                            "min_level": 25
-                          },
-                          {
-                            "chance": 1,
-                            "condition_values": [],
-                            "max_level": 27,
-                            "method": {
-                              "name": "walk",
-                              "url": "https://pokeapi.co/api/v2/encounter-method/1/"
-                            },
-                            "min_level": 27
-                          }
-                        ],
-                        "max_chance": 5,
-                        "version": {
-                          "name": "sapphire",
-                          "url": "https://pokeapi.co/api/v2/version/8/"
                         }
                       }
                     ]
