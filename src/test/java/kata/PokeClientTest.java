@@ -9,10 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -20,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -51,11 +46,7 @@ class PokeClientTest {
 
     @Test
     void retrieve_capitalised_pokemon_name() throws IOException {
-        given(okHttpClient.newCall(any())).willReturn(call);
-        given(call.execute()).willReturn(response);
-        given(response.isSuccessful()).willReturn(true);
-        given(response.body()).willReturn(responseBody);
-        given(responseBody.string()).willReturn("""
+        mockResponse("""
                 {
                   "id": 25,
                   "name": "pikachu"
@@ -66,14 +57,17 @@ class PokeClientTest {
         assertThat(actual).isEqualTo("Pikachu");
     }
 
-    @Test
-    void set_authorization_header() throws IOException {
-        ArgumentCaptor<Request> argumentCaptor = ArgumentCaptor.forClass(Request.class);
+    private void mockResponse(String responseBody) throws IOException {
         given(okHttpClient.newCall(any())).willReturn(call);
         given(call.execute()).willReturn(response);
         given(response.isSuccessful()).willReturn(true);
-        given(response.body()).willReturn(responseBody);
-        given(responseBody.string()).willReturn("""
+        given(response.body()).willReturn(this.responseBody);
+        given(this.responseBody.string()).willReturn(responseBody);
+    }
+
+    @Test
+    void set_authorization_header() throws IOException {
+        mockResponse("""
                 {
                   "id": 25,
                   "name": "pikachu"
@@ -81,6 +75,7 @@ class PokeClientTest {
 
         pokeClient.getName(25);
 
+        ArgumentCaptor<Request> argumentCaptor = ArgumentCaptor.forClass(Request.class);
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
         assertThat(request.header("Authorization")).isEqualTo(DUMMY_API_KEY);
@@ -88,12 +83,7 @@ class PokeClientTest {
 
     @Test
     void make_request_to_expected_url() throws IOException {
-        ArgumentCaptor<Request> argumentCaptor = ArgumentCaptor.forClass(Request.class);
-        given(okHttpClient.newCall(any())).willReturn(call);
-        given(call.execute()).willReturn(response);
-        given(response.isSuccessful()).willReturn(true);
-        given(response.body()).willReturn(responseBody);
-        given(responseBody.string()).willReturn("""
+        mockResponse("""
                 {
                   "id": 25,
                   "name": "pikachu"
@@ -101,6 +91,7 @@ class PokeClientTest {
 
         pokeClient.getName(25);
 
+        ArgumentCaptor<Request> argumentCaptor = ArgumentCaptor.forClass(Request.class);
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
         assertThat(request.url().toString()).isEqualTo("https://example.com/pokemon/25");
@@ -129,12 +120,7 @@ class PokeClientTest {
 
     @Test
     void testGetLocations() throws IOException {
-        ArgumentCaptor<Request> argumentCaptor = ArgumentCaptor.forClass(Request.class);
-        given(okHttpClient.newCall(any())).willReturn(call);
-        given(call.execute()).willReturn(response);
-        given(response.isSuccessful()).willReturn(true);
-        given(response.body()).willReturn(responseBody);
-        given(responseBody.string()).willReturn("""
+        mockResponse("""
                 [
                   {
                     "location_area": {
@@ -194,6 +180,7 @@ class PokeClientTest {
 
         List<String> locations = pokeClient.getLocations(25);
 
+        ArgumentCaptor<Request> argumentCaptor = ArgumentCaptor.forClass(Request.class);
         assertThat(locations).containsExactly("viridian-forest-area", "power-plant-area");
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
