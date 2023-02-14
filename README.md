@@ -1,8 +1,13 @@
 ![Test Status](../../workflows/test/badge.svg)
 
+Note: 
+
+This readme is for me, for using this learning hour, I'd copy it into a new repository without the readme.
+For a remote session, mentimeter can be used to gather people's answers.
+
 # Mocking 3rd party code
 
-It’s useful to have a vocabularly for talking about refactoring. It will help you to communicate when doing strong-style pairing or mob programming. In this learning hour we’ll learn what refactorings are and the names of some of them. We’ll also practice applying Extract Function in order to address a Long Function smell.
+
 
 
 ## Learning Goals
@@ -18,12 +23,26 @@ It’s useful to have a vocabularly for talking about refactoring. It will help 
     10 min demo: showcase necessary test updates when doing mock approach, show test using mockwebserver instead
     25 min do: let people try it out to learn about mockwebserver
     5 min reflect: 
-    
-    
-   1  we care about testing behaviour and should be wary when we mock too much, as it documents the current structure
-  2  dont mock 3rd party librarires because as we see, you suddenly have work to do when they change their code (plus you dont have an interface which you can change if your tests give you feedback that you dont like their api)
-  3  how to use mockwebserver to test behaviour of your current http client and verify that new client behaves the same
-   4 notice how all this web related code is intermingled with logic we could test separately 
+
+## Connect
+
+Gather people around a whiteboard and ask them to name and write up qualities of good tests.
+
+## Concept
+
+Trustworthy, Readable, Maintainable
+
+## Concrete
+
+Let's refactor towards readability.
+
+## Conclusion
+
+
+Reflect
+
+    Think about what we did today. 
+    If you're asked now about qualities of good tests, what comes yo your mind?
 
 
 https://pokeapi.co/docs/v2
