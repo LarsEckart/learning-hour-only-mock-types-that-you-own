@@ -50,8 +50,7 @@ class PokeClientTest {
     }
 
     @Test
-    void testGetName() throws IOException {
-        ArgumentCaptor<Request> argumentCaptor = ArgumentCaptor.forClass(Request.class);
+    void retrieve_capitalised_pokemon_name() throws IOException {
         given(okHttpClient.newCall(any())).willReturn(call);
         given(call.execute()).willReturn(response);
         given(response.isSuccessful()).willReturn(true);
@@ -65,11 +64,46 @@ class PokeClientTest {
         String actual = pokeClient.getName(25);
 
         assertThat(actual).isEqualTo("Pikachu");
+    }
+
+    @Test
+    void set_authorization_header() throws IOException {
+        ArgumentCaptor<Request> argumentCaptor = ArgumentCaptor.forClass(Request.class);
+        given(okHttpClient.newCall(any())).willReturn(call);
+        given(call.execute()).willReturn(response);
+        given(response.isSuccessful()).willReturn(true);
+        given(response.body()).willReturn(responseBody);
+        given(responseBody.string()).willReturn("""
+                {
+                  "id": 25,
+                  "name": "pikachu"
+                }""");
+
+        pokeClient.getName(25);
+
+        verify(okHttpClient).newCall(argumentCaptor.capture());
+        Request request = argumentCaptor.getValue();
+        assertThat(request.header("Authorization")).isEqualTo(DUMMY_API_KEY);
+    }
+
+    @Test
+    void make_request_to_expected_url() throws IOException {
+        ArgumentCaptor<Request> argumentCaptor = ArgumentCaptor.forClass(Request.class);
+        given(okHttpClient.newCall(any())).willReturn(call);
+        given(call.execute()).willReturn(response);
+        given(response.isSuccessful()).willReturn(true);
+        given(response.body()).willReturn(responseBody);
+        given(responseBody.string()).willReturn("""
+                {
+                  "id": 25,
+                  "name": "pikachu"
+                }""");
+
+        pokeClient.getName(25);
 
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
         assertThat(request.url().toString()).isEqualTo("https://example.com/pokemon/25");
-        assertThat(request.header("Authorization")).isEqualTo(DUMMY_API_KEY);
     }
 
     @Test
