@@ -15,7 +15,11 @@ People have a look at the existing tests and we talk about what qualities unit t
 Ideas like trustworthiness, readability, maintainability and related qualities are ideally mentioned.
 Test structure, test names, verifying 1 behaviour/idea per test.
 Should also talk about the ideas of how/when to use mocks.
-Testing behaviour instead of implementations (that's where this exercise originates from, updating the http client library caused tests to change)
+
+Testing behaviour instead of implementations.
+Ask about "will the tests change when we switch the http client library" (which is what inspired this exercise).
+Mock only what you own. Why? (from goos book iirc)
+
 
 ## Session 2 - Testing behaviour, no mocks, integration testing, 
 
