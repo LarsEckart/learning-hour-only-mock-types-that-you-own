@@ -26,8 +26,9 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class PokeClientTest {
 
-    public static final String DUMMY_URL = "https://example.com/";
-    public static final String DUMMY_API_KEY = "anyApiKey";
+    private static final String DUMMY_URL = "https://example.com/";
+    private static final String DUMMY_API_KEY = "anyApiKey";
+
     @Mock
     private OkHttpClient okHttpClient;
     @Mock
@@ -51,11 +52,7 @@ class PokeClientTest {
         given(call.execute()).willReturn(response);
         given(response.isSuccessful()).willReturn(true);
         given(response.body()).willReturn(responseBody);
-        given(responseBody.string()).willReturn("""
-                {
-                  "id": 25,
-                  "name": "pikachu"
-                }""");
+        given(responseBody.string()).willReturn("{\"id\":25,\"name\":\"pikachu\"}");
         assertThat(pokeClient.getName(25)).isEqualTo("Pikachu");
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
@@ -88,63 +85,7 @@ class PokeClientTest {
         given(call.execute()).willReturn(response);
         given(response.isSuccessful()).willReturn(true);
         given(response.body()).willReturn(responseBody);
-        given(responseBody.string()).willReturn("""
-                [
-                  {
-                    "location_area": {
-                      "name": "viridian-forest-area",
-                      "url": "https://pokeapi.co/api/v2/location-area/321/"
-                    },
-                    "version_details": [
-                      {
-                        "version": {
-                          "name": "red",
-                          "url": "https://pokeapi.co/api/v2/version/1/"
-                        }
-                      },
-                      {
-                        "version": {
-                          "name": "blue",
-                          "url": "https://pokeapi.co/api/v2/version/2/"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "location_area": {
-                      "name": "power-plant-area",
-                      "url": "https://pokeapi.co/api/v2/location-area/330/"
-                    },
-                    "version_details": [
-                      {
-                        "version": {
-                          "name": "red",
-                          "url": "https://pokeapi.co/api/v2/version/1/"
-                        }
-                      },
-                      {
-                        "version": {
-                          "name": "leafgreen",
-                          "url": "https://pokeapi.co/api/v2/version/11/"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "location_area": {
-                      "name": "hoenn-safari-zone-sw",
-                      "url": "https://pokeapi.co/api/v2/location-area/431/"
-                    },
-                    "version_details": [
-                      {
-                        "version": {
-                          "name": "ruby",
-                          "url": "https://pokeapi.co/api/v2/version/7/"
-                        }
-                      }
-                    ]
-                  }
-                ]""");
+        given(responseBody.string()).willReturn("[{\"location_area\":{\"name\":\"viridian-forest-area\",\"url\":\"https://pokeapi.co/api/v2/location-area/321/\"},\"version_details\":[{\"version\":{\"name\":\"red\",\"url\":\"https://pokeapi.co/api/v2/version/1/\"}},{\"version\":{\"name\":\"blue\",\"url\":\"https://pokeapi.co/api/v2/version/2/\"}}]},{\"location_area\":{\"name\":\"power-plant-area\",\"url\":\"https://pokeapi.co/api/v2/location-area/330/\"},\"version_details\":[{\"version\":{\"name\":\"red\",\"url\":\"https://pokeapi.co/api/v2/version/1/\"}},{\"version\":{\"name\":\"leafgreen\",\"url\":\"https://pokeapi.co/api/v2/version/11/\"}}]},{\"location_area\":{\"name\":\"hoenn-safari-zone-sw\",\"url\":\"https://pokeapi.co/api/v2/location-area/431/\"},\"version_details\":[{\"version\":{\"name\":\"ruby\",\"url\":\"https://pokeapi.co/api/v2/version/7/\"}}]}]");
         assertThat(pokeClient.getLocations(25)).containsExactly("Viridian Forest Area", "Power Plant Area");
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
