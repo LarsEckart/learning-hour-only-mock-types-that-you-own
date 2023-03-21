@@ -19,12 +19,17 @@ Should also talk about the ideas of how/when to use mocks.
 Testing behaviour instead of implementations.
 Ask about "will the tests change when we switch the http client library" (which is what inspired this exercise).
 Mock only what you own. Why? (from goos book iirc)
+Discuss different types of test doubles.
+Given these tests, how much confidence do we have that everything is working?
 
 
 ## Session 2 - Testing behaviour, no mocks, integration testing, 
 
-Let's remove the mocks from these tests and use a library like [mockwebserver](https://github.com/square/okhttp/tree/master/mockwebserver) to execute the real code.
+Let's remove the mocks from these tests and use a library like [mockwebserver](https://github.com/square/okhttp/tree/master/mockwebserver) to execute the code more realistically.
+Keep existing tests, create new test class for the new tests.
+
 Talk about the loss of "super fast unit tests" vs the gain in trustworthiness and actually testing what the code does.
+
 Also I'd claim the tests are still fast enough.
 Could we now change the http client library without changing our tests?
 
