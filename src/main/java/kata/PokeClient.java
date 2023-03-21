@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class PokeClient {
 
@@ -73,11 +74,19 @@ class PokeClient {
                 return Arrays.stream(array)
                         .filter(x -> Arrays.stream(x.version_details()).anyMatch(y -> "red".equals(y.version().name()) || "blue".equals(y.version().name())))
                         .map(r -> r.location_area().name())
+                        .map(PokeClient::removeDashesAndCapitalize)
                         .toList();
             } else {
                 return Collections.emptyList();
             }
         }
+    }
+
+    private static String removeDashesAndCapitalize(String location) {
+        List<String> words = Arrays.stream(location.replace("-", " ").split(" "))
+                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                .collect(Collectors.toList());
+        return String.join(" ", words);
     }
 
 }

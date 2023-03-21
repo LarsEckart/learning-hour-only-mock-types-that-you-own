@@ -56,8 +56,7 @@ class PokeClientTest {
                   "id": 25,
                   "name": "pikachu"
                 }""");
-        String actual = pokeClient.getName(25);
-        assertThat(actual).isEqualTo("Pikachu");
+        assertThat(pokeClient.getName(25)).isEqualTo("Pikachu");
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
         assertThat(request.url().toString()).isEqualTo("https://example.com/pokemon/25");
@@ -146,8 +145,7 @@ class PokeClientTest {
                     ]
                   }
                 ]""");
-        List<String> locations = pokeClient.getLocations(25);
-        assertThat(locations).containsExactly("viridian-forest-area", "power-plant-area");
+        assertThat(pokeClient.getLocations(25)).containsExactly("Viridian Forest Area", "Power Plant Area");
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
         assertThat(request.url().toString()).isEqualTo("https://example.com/pokemon/25/encounters");
