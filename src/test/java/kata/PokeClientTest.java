@@ -56,11 +56,8 @@ class PokeClientTest {
                   "id": 25,
                   "name": "pikachu"
                 }""");
-
         String actual = pokeClient.getName(25);
-
         assertThat(actual).isEqualTo("Pikachu");
-
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
         assertThat(request.url().toString()).isEqualTo("https://example.com/pokemon/25");
@@ -72,9 +69,7 @@ class PokeClientTest {
         given(okHttpClient.newCall(any())).willReturn(call);
         given(call.execute()).willReturn(response);
         given(response.isSuccessful()).willReturn(false);
-
         String actual = pokeClient.getName(25);
-
         assertThat(actual).isEqualTo("Unknown");
     }
 
@@ -82,7 +77,6 @@ class PokeClientTest {
     @ValueSource(ints = {0, -1, 1009, 2000})
     void testGetNameInvalidId(int id) {
         PokeClient pokeClient = new PokeClient(new PokeConfig(null, null), null);
-
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> pokeClient.getName(id))
                 .withMessage("id '%s' is not between 1 and 1008.".formatted(id));
@@ -152,9 +146,7 @@ class PokeClientTest {
                     ]
                   }
                 ]""");
-
         List<String> locations = pokeClient.getLocations(25);
-
         assertThat(locations).containsExactly("viridian-forest-area", "power-plant-area");
         verify(okHttpClient).newCall(argumentCaptor.capture());
         Request request = argumentCaptor.getValue();
@@ -177,7 +169,6 @@ class PokeClientTest {
     @ValueSource(ints = {0, -1, 1009, 2000})
     void testGetLocationsInvalidId(int id) {
         PokeClient pokeClient = new PokeClient(new PokeConfig(null, null), null);
-
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> pokeClient.getLocations(id))
                 .withMessage("id '%s' is not between 1 and 1008.".formatted(id));
