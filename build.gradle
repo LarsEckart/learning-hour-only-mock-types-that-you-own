@@ -16,7 +16,11 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework:spring-core:6.0.12'
+    implementation 'org.springframework:spring-context:6.0.12'
+
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
+    implementation("org.apache.httpcomponents:httpclient:4.5.13")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
 
