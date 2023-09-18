@@ -14,13 +14,14 @@ My vision for this kata is that it can be used for multiple sessions.
 People have a look at the existing tests and we talk about what qualities unit tests should have.
 Ideas like trustworthiness, readability, maintainability and related qualities are ideally mentioned.
 Test structure, test names, verifying 1 behaviour/idea per test.
-Should also talk about the ideas of how/when to use mocks.
+Should also talk about the ideas of how/when to use test doubles.
 
 Testing behaviour instead of implementations.
 Ask about "will the tests change when we switch the http client library" (which is what inspired this exercise).
-Mock only what you own. Why? (from goos book iirc)
+Mock only what you own. Why? (from goos book)
 Discuss different types of test doubles.
 Given these tests, how much confidence do we have that everything is working?
+Collaboration tests vs contract tests.
 
 
 ## Session 2 - Testing behaviour, no mocks, integration testing, 
