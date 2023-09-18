@@ -1,12 +1,28 @@
-name: test
+name: Run tests
 
 on:
   push:
     branches:
-      - '*'
+      - main
+    paths:
+      - '**.java'
+      - 'build.gradle'
+      - 'gradle/wrapper/**'
+      - '.github/workflows/test.yml'
   pull_request:
     branches:
       - main
+    paths:
+      - '**.java'
+      - 'build.gradle'
+      - 'gradle/wrapper/**'
+#  schedule:
+#    - cron: "0 */3 * * *"
+
+# Cancel existing executions when new commits are pushed onto the branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
