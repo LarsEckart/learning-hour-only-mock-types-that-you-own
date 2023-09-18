@@ -1,4 +1,4 @@
-package kata;
+package learninghour.poke;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;

@@ -1,5 +1,7 @@
-package kata;
+package learninghour.poke;
 
+import learninghour.poke.PokeClient;
+import learninghour.poke.PokeConfig;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

@@ -1,4 +1,4 @@
-package kata;
+package learninghour.poke;
 
 public record Version(String name) {
 }
