@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 
-class LocationService {
+public class LocationService {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
