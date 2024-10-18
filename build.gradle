@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework:spring-core:6.1.13'
+    implementation 'org.springframework:spring-core:6.1.14'
     implementation 'org.springframework:spring-context:6.1.13'
 
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.14")
