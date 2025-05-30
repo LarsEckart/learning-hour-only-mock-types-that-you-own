@@ -28,8 +28,8 @@ dependencies {
     testImplementation("com.larseckart:junit-tcr-extensions:0.0.3")
     testImplementation("org.mockito:mockito-core:5.18.0")
     testImplementation("org.mockito:mockito-junit-jupiter:5.18.0")
-    testImplementation("com.squareup.okhttp3:mockwebserver3:5.0.0-alpha.14")
-    testImplementation("com.squareup.okhttp3:mockwebserver3-junit5:5.0.0-alpha.14")
+    testImplementation("com.squareup.okhttp3:mockwebserver3:5.0.0-alpha.16")
+    testImplementation("com.squareup.okhttp3:mockwebserver3-junit5:5.0.0-alpha.16")
 }
 
 tasks.withType(JavaCompile) {
