@@ -18,7 +18,7 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:5.4.0")
     implementation("org.apache.httpcomponents:httpclient:4.5.14")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.21.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.22.0")
 
 
     testImplementation(platform("org.junit:junit-bom:6.1.0"))
