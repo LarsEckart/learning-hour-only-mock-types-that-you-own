@@ -21,7 +21,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.22.1")
 
 
-    testImplementation(platform("org.junit:junit-bom:6.1.1"))
+    testImplementation(platform("org.junit:junit-bom:6.1.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation('org.assertj:assertj-core:3.27.7')
     testImplementation("com.approvaltests:approvaltests:31.0.0")
